@@ -1,0 +1,25 @@
+# Dependencias
+node_modules/
+
+# Produccion y Builds
+dist/
+build/
+.next/
+
+# Entorno y Secretos
+.env
+.env.*
+
+# SO y Logs
+.DS_Store
+Thumbs.db
+*.log
+npm-debug.log*
+
+# IDEs y Herramientas IA (Claude / Cursor)
+.vscode/
+.idea/
+.claude/
+.cursor/
+.cursorrules
+.claudeproject

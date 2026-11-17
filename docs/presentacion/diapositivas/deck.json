@@ -1,0 +1,89 @@
+{
+  "v": 5,
+  "createdOnFiles": {
+    "v": 1,
+    "at": "2026-11-17T17:00:00Z"
+  },
+  "lists": "css",
+  "format": {
+    "v": 1,
+    "shared": [
+      "project/deck.css"
+    ]
+  },
+  "title": "Defensa: Árboles de Expresión y Pilas",
+  "order": [
+    "cover",
+    "problema",
+    "conceptos",
+    "lexico",
+    "sintactico",
+    "parentesis",
+    "memoria",
+    "negativos",
+    "recorridos",
+    "seguimiento",
+    "porque",
+    "valores",
+    "pila",
+    "evaluacion",
+    "traza",
+    "ordenpop",
+    "validaciones",
+    "codigo-mapa",
+    "codigo-flujo",
+    "codigo-piezas",
+    "codigo-union",
+    "codigo-lexpar",
+    "codigo-recursion",
+    "codigo-react",
+    "codigo-componente",
+    "pruebas",
+    "demo"
+  ],
+  "sections": {
+    "s1": {
+      "description": "Qué resuelve el proyecto y qué conceptos de la Unidad 5 usa",
+      "start": "cover"
+    },
+    "s2": {
+      "description": "Construcción del árbol: análisis léxico, sintáctico, memoria y negativos",
+      "start": "lexico"
+    },
+    "s3": {
+      "description": "Recorridos preorden, inorden y posorden, y el valor de cada uno",
+      "start": "recorridos"
+    },
+    "s4": {
+      "description": "Evaluación con la pila y la regla de los dos POP",
+      "start": "pila"
+    },
+    "s5": {
+      "description": "Validaciones",
+      "start": "validaciones"
+    },
+    "s6": {
+      "description": "El código por dentro: carpetas, lenguajes, diagrama, fragmentos y React",
+      "start": "codigo-mapa"
+    },
+    "s7": {
+      "description": "Pruebas y demostración",
+      "start": "pruebas"
+    }
+  },
+  "faces": {
+    "comfortaa": {
+      "family": "Comfortaa",
+      "href": "https://fonts.googleapis.com/css2?family=Comfortaa:wght@400..700&display=swap"
+    },
+    "rubik": {
+      "family": "Rubik",
+      "href": "https://fonts.googleapis.com/css2?family=Rubik:wght@300..700&display=swap"
+    },
+    "jetbrains-mono": {
+      "family": "JetBrains Mono",
+      "href": "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400..700&display=swap"
+    }
+  },
+  "designSystems": []
+}

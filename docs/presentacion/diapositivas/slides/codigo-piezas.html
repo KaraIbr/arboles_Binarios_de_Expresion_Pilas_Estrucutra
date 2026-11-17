@@ -1,0 +1,41 @@
+<section id="codigo-piezas" class="alt" data-transition="fade">
+<div class="page" style="gap:24px">
+<div class="head">
+<p class="eyebrow">19 · CADA PIEZA POR SEPARADO</p>
+<h2 class="title">Cada archivo hace una sola cosa</h2>
+</div>
+<table class="tbl">
+<tr><th style="width:18%">Archivo</th><th style="width:20%">Recibe</th><th style="width:32%">Entrega</th><th>No sabe nada de…</th></tr>
+<tr><td>Lexer.ts</td><td>el texto</td><td>la lista de piezas</td><td>árboles ni pilas</td></tr>
+<tr><td>Parser.ts</td><td>las piezas</td><td>la raíz del árbol</td><td>cómo se calcula</td></tr>
+<tr><td>Node.ts</td><td>INFO, IZQ, DER</td><td>un nodo</td><td>quién lo creó</td></tr>
+<tr><td>traversals.ts</td><td>la raíz</td><td>nodos en pre, in o posorden</td><td>qué significa cada nodo</td></tr>
+<tr><td>Stack.ts</td><td>valores (PUSH)</td><td>valores (POP, TOPE)</td><td>que son números de una cuenta</td></tr>
+<tr><td>evaluator.ts</td><td>el árbol</td><td>lista de pasos y resultado</td><td>la pantalla</td></tr>
+<tr><td>notations.ts</td><td>el árbol</td><td>el valor de cada recorrido</td><td>la pantalla</td></tr>
+</table>
+<div class="cards">
+<div class="card uso">
+<p class="ch">Se comparten por lo que entregan</p>
+<p class="cb">La salida de una pieza es la entrada de la siguiente, como una cadena.</p>
+</div>
+<div class="card rompe">
+<p class="ch">Se rompería si…</p>
+<p class="cb">el Parser leyera el texto: repetiría el trabajo del Lexer y mezclaría dos tareas.</p>
+</div>
+</div>
+</div>
+<aside>Ahora veamos la lógica pieza por pieza. La organicé con una idea sencilla: cada archivo tiene una sola tarea, recibe algo y entrega algo, como en una cadena de producción.
+
+El Lexer recibe el texto y entrega la lista de piezas. No sabe nada de árboles. El Parser recibe esa lista y entrega la raíz del árbol; sabe cómo se acomodan las piezas, pero no cómo se calcula. Para crear cada nodo usa la clase TreeNode, del archivo Node, que lo único que hace es guardar INFO, IZQ y DER.
+
+Los recorridos reciben la raíz y entregan una lista de nodos en preorden, inorden o posorden. No les importa si un nodo es un número o un operador: solo lo visitan.
+
+La pila es la más independiente de todas. Guarda valores, los saca y consulta el de arriba, y no tiene idea de que está guardando números de una operación; podría guardar cualquier otra cosa.
+
+El evaluador es el que reúne a las demás: recibe el árbol, le pide el posorden, usa una pila y entrega la lista de pasos junto con el resultado. Y el archivo notations calcula el valor de cada recorrido, lo que vimos hace un momento. Por cierto, ese archivo reutiliza la misma pila y la misma función que hace las operaciones; no tuve que escribirlas otra vez.
+
+¿Qué gano con esta separación? Que cada pieza se puede revisar sola. Si un resultado saliera mal, puedo comprobar primero si las piezas son correctas, después si el árbol es correcto, y así encontrar el error rápido. Las pruebas automáticas hacen exactamente eso.
+
+Y si lo hubiera hecho al revés, por ejemplo, si el Parser leyera directamente el texto carácter por carácter, tendría que hacer él mismo el trabajo del Lexer. Tendría dos tareas mezcladas, el código sería más largo y cualquier error sería más difícil de encontrar.</aside>
+</section>

@@ -1,0 +1,41 @@
+<section id="validaciones" data-transition="fade">
+<div class="page" style="gap:28px">
+<div class="head">
+<p class="eyebrow">16 · VALIDACIONES</p>
+<h2 class="title">Errores controlados</h2>
+</div>
+<table class="tbl">
+<tr><th style="width:24%">Error</th><th style="width:13%">Ejemplo</th><th style="width:26%">¿Dónde se detecta?</th><th>Qué hace la app</th></tr>
+<tr><td>Carácter no válido</td><td>5+a</td><td>Analizador léxico</td><td>Marca la columna del carácter</td></tr>
+<tr><td>Número mal formado</td><td>1.2.3</td><td>Analizador léxico</td><td>Señala el número</td></tr>
+<tr><td>Paréntesis sin cerrar</td><td>(5+3</td><td>Analizador sintáctico</td><td>No construye el árbol</td></tr>
+<tr><td>Paréntesis vacíos</td><td>()</td><td>Analizador sintáctico</td><td>Indica la columna</td></tr>
+<tr><td>Falta un operando</td><td>5+</td><td>Analizador sintáctico</td><td>Indica dónde falta</td></tr>
+<tr><td>División entre cero</td><td>9/(3-3)</td><td>Evaluación con la pila</td><td>Se detiene en el nodo ÷ y lo marca</td></tr>
+<tr><td>Pila mal formada</td><td>respaldo</td><td>Evaluación con la pila</td><td>POP en pila vacía o no queda 1 valor</td></tr>
+</table>
+<div class="cards">
+<div class="card uso">
+<p class="ch">Programación defensiva</p>
+<p class="cb">Revisar antes de calcular, no después. La app nunca se cierra: muestra el error y sigue funcionando.</p>
+</div>
+<div class="card rompe">
+<p class="ch">Se rompería si no se revisa</p>
+<p class="cb">En JavaScript 9 ÷ 0 no marca error: da Infinity, y 0 ÷ 0 da NaN. Se mostraría un resultado falso.</p>
+</div>
+</div>
+</div>
+<aside>La rúbrica pide que el programa no se cierre cuando algo sale mal, sino que detecte el problema y lo explique. Esta tabla muestra todos los errores que revisa y en qué parte se detectan.
+
+Los dos primeros se atrapan en el analizador léxico, al principio de todo: un carácter que no pertenece a una operación, como una letra, y un número mal escrito, como 1.2.3. En la pantalla se marca en color terracota la columna exacta del problema.
+
+Los tres siguientes los detecta el analizador sintáctico, antes de construir el árbol. Paréntesis sin cerrar, como en (5 + 3, que es el caso 7 de la rúbrica: antes de armar nada, el programa revisa que cada paréntesis que abre tenga uno que lo cierre, y si falta uno se detiene. Paréntesis vacíos. Y operandos faltantes, como 5 + sin nada después.
+
+La división entre cero es distinta, porque no se puede saber hasta calcular. En 9 ÷ (3 − 3) el árbol se construye bien; el problema aparece cuando la resta da cero y la división recibe ese cero como divisor. En ese momento el programa se detiene y marca el nodo de la división.
+
+¿Por qué tengo que revisarlo yo? Porque JavaScript no marca error al dividir entre cero: 9 entre 0 le da Infinity, y 0 entre 0 le da NaN, que significa «no es un número». Si no lo revisara, la aplicación mostraría Infinity como si fuera una respuesta válida. A esto se le llama programación defensiva: revisar antes de hacer la operación, no después.
+
+La última fila es un seguro: si por alguna razón se intentara sacar algo de la pila vacía, o al final no quedara exactamente un número, también se reporta.
+
+En todos los casos el error se convierte en un mensaje en la pantalla, la aplicación sigue funcionando y se puede escribir otra expresión enseguida.</aside>
+</section>

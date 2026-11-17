@@ -1,0 +1,51 @@
+<section id="sintactico" data-transition="fade">
+<div class="split">
+<div class="text">
+<p class="eyebrow">04 · PASO 2</p>
+<h2 class="title">Analizador sintáctico</h2>
+<p class="lead">Acomoda las piezas en el árbol respetando la precedencia: × y ÷ se resuelven antes que + y −.</p>
+<div class="levels">
+<p class="level"><b>Expresión:</b> une términos con + y −</p>
+<p class="level"><b>Término:</b> une factores con × y ÷</p>
+<p class="level"><b>Factor:</b> un número, un signo o un paréntesis</p>
+</div>
+<p class="small">En 7+3*2, Término junta 3×2 antes de que Expresión lo sume con 7.</p>
+</div>
+<div class="right">
+<div class="algo">
+<p class="at">Algoritmo Término</p>
+<p class="al">1. Hacer IZQ ← Factor</p>
+<p class="al">2. Mientras (la pieza actual sea × o ÷) repetir</p>
+<p class="al">&#160;&#160;&#160;Hacer OP ← pieza actual y avanzar</p>
+<p class="al">&#160;&#160;&#160;Hacer DER ← Factor</p>
+<p class="al">&#160;&#160;&#160;Crear(NUEVO) con NUEVO^.INFO ← OP</p>
+<p class="al">&#160;&#160;&#160;Hacer NUEVO^.IZQ ← IZQ y NUEVO^.DER ← DER</p>
+<p class="al">&#160;&#160;&#160;Hacer IZQ ← NUEVO <span class="cm">{el operador queda como padre}</span></p>
+<p class="al">3. (Fin del ciclo del paso 2)</p>
+<p class="al">4. Regresar IZQ</p>
+<p class="al cm">Expresión es igual, con + y −, y llama a Término.</p>
+</div>
+<div class="cards">
+<div class="card uso">
+<p class="ch">Se usa en</p>
+<p class="cb">Compiladores y hojas de cálculo: las fórmulas de Excel se analizan igual.</p>
+</div>
+<div class="card rompe">
+<p class="ch">Se rompería si…</p>
+<p class="cb">armara el árbol de izquierda a derecha sin niveles: 7+3*2 daría (7+3)×2 = 20 y no 13.</p>
+</div>
+</div>
+</div>
+</div>
+<aside>Ya tengo las piezas; ahora hay que acomodarlas en un árbol. Y aquí aparece el reto más interesante: la precedencia. En 7 + 3 × 2, la suma aparece primero, pero se tiene que calcular después de la multiplicación.
+
+Lo resolví con tres niveles, uno por cada nivel de precedencia. Expresión se encarga de las sumas y restas. Término, de las multiplicaciones y divisiones. Y Factor reconoce lo más básico: un número, un número con signo o algo entre paréntesis. El truco está en que cada nivel le pide sus operandos al nivel de abajo. Expresión no junta números directamente: le pide términos a Término, y Término le pide factores a Factor.
+
+Veamos qué pasa con 7 + 3 × 2. Expresión pide un término y recibe el 7. Luego ve el signo más, así que pide otro término. Ese segundo término lee el 3, ve el por, lee el 2 y arma el subárbol 3 × 2 antes de regresar. Hasta entonces Expresión crea el nodo de la suma, con el 7 a la izquierda y el 3 × 2 a la derecha. La multiplicación quedó más abajo en el árbol, y lo que está más abajo se calcula primero.
+
+A la derecha está el algoritmo de Término, escrito como en los apuntes. Obtiene un factor y lo guarda en IZQ. Mientras siga viendo un por o un entre, guarda el operador, obtiene otro factor como DER y crea un nodo nuevo con el operador en INFO. Ese nodo nuevo se convierte en IZQ, así que si viene otra multiplicación, el árbol sigue creciendo hacia arriba.
+
+Esta misma técnica la usan los compiladores, y también Excel cuando analiza una fórmula.
+
+Si no tuviera estos niveles y armara el árbol en el orden en que llegan las piezas, 7 + 3 × 2 se agruparía como (7 + 3) × 2 y daría 20 en lugar de 13. Los niveles son los que evitan ese error.</aside>
+</section>

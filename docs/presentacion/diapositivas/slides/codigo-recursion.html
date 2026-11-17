@@ -1,0 +1,61 @@
+<section id="codigo-recursion" data-transition="fade">
+<div class="page">
+<div class="head">
+<p class="eyebrow">22 · LA LÓGICA EN CÓDIGO</p>
+<h2 class="title">Recorridos y pila reutilizada</h2>
+</div>
+<div class="row" style="gap:48px">
+<div class="stack-col" style="flex:1">
+<div class="code" style="padding:32px 32px">
+<div class="dots"><x-shape kind="ellipse" class="dot-r"></x-shape><x-shape kind="ellipse" class="dot-y"></x-shape><x-shape kind="ellipse" class="dot-g"></x-shape></div>
+<div class="lines">
+<p class="ln"><span class="c">// src/core/traversals.ts</span></p>
+<p class="ln"><span class="k">function</span> posorden(nodo, visita = []) {</p>
+<p class="ln">&#160;&#160;<span class="k">if</span> (nodo === <span class="k">null</span>) <span class="k">return</span> visita; <span class="c">// NIL</span></p>
+<p class="ln">&#160;&#160;posorden(nodo.izq, visita);       <span class="c">// IZQ</span></p>
+<p class="ln">&#160;&#160;posorden(nodo.der, visita);       <span class="c">// DER</span></p>
+<p class="ln">&#160;&#160;visita.push(nodo);                <span class="c">// Visitar</span></p>
+<p class="ln">&#160;&#160;<span class="k">return</span> visita;</p>
+<p class="ln">}</p>
+<p class="ln"><span class="c">// preorden: visita.push(nodo) va primero</span></p>
+<p class="ln"><span class="c">// inorden:  visita.push(nodo) va en medio</span></p>
+</div>
+</div>
+<div class="card uso">
+<p class="ch">Igual al algoritmo 6.4 de Cairo</p>
+<p class="cb">Solo cambia dónde va «Visitar». null es NIL.</p>
+</div>
+</div>
+<div class="code" style="flex:1; padding:32px 32px">
+<div class="dots"><x-shape kind="ellipse" class="dot-r"></x-shape><x-shape kind="ellipse" class="dot-y"></x-shape><x-shape kind="ellipse" class="dot-g"></x-shape></div>
+<div class="lines">
+<p class="ln"><span class="c">// src/core/notations.ts (reutiliza Stack)</span></p>
+<p class="ln"><span class="k">function</span> evaluatePrefix(preorden) {</p>
+<p class="ln">&#160;&#160;<span class="k">const</span> pila = <span class="k">new</span> Stack&lt;number&gt;();</p>
+<p class="ln">&#160;&#160;<span class="k">for</span> (<span class="k">let</span> i = preorden.length - 1; i &gt;= 0; i--) {</p>
+<p class="ln">&#160;&#160;&#160;&#160;<span class="k">const</span> nodo = preorden[i];</p>
+<p class="ln">&#160;&#160;&#160;&#160;<span class="k">if</span> (<span class="k">typeof</span> nodo.info === <span class="s">&#x27;number&#x27;</span>) {</p>
+<p class="ln">&#160;&#160;&#160;&#160;&#160;&#160;pila.push(nodo.info);</p>
+<p class="ln">&#160;&#160;&#160;&#160;} <span class="k">else</span> {</p>
+<p class="ln">&#160;&#160;&#160;&#160;&#160;&#160;<span class="k">const</span> izquierdo = pila.pop(); <span class="c">// 1er POP</span></p>
+<p class="ln">&#160;&#160;&#160;&#160;&#160;&#160;<span class="k">const</span> derecho = pila.pop();</p>
+<p class="ln">&#160;&#160;&#160;&#160;&#160;&#160;pila.push(applyOperator(izquierdo,</p>
+<p class="ln">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;nodo.info, derecho));</p>
+<p class="ln">&#160;&#160;&#160;&#160;}</p>
+<p class="ln">&#160;&#160;}</p>
+<p class="ln">&#160;&#160;<span class="k">return</span> pila.pop();</p>
+<p class="ln">}</p>
+</div>
+</div>
+</div>
+</div>
+<aside>Aquí están los recorridos en código, y se ve que son casi idénticos a los algoritmos de Cairo.
+
+La función posorden recibe un nodo y una lista donde va anotando las visitas. La primera línea es el caso base: si el nodo es null, que es nuestro NIL, regresa sin hacer nada. Si no, se llama a sí misma con el hijo izquierdo, luego con el derecho, y hasta el final agrega el nodo a la lista; ese es el «Visitar». Para el preorden y el inorden la función es la misma, solo cambia de lugar la línea que agrega el nodo: en el preorden va antes de las dos llamadas y en el inorden va en medio.
+
+A la derecha está la evaluación del preorden, la que da el valor tenue que aparece junto a la notación prefija. La pongo aquí para mostrar cómo se comparten las piezas: no programé una pila nueva ni otra forma de sumar o dividir. Uso la misma clase Stack y la misma función applyOperator que usa el evaluador principal.
+
+Lo que cambia es la dirección y el orden de los POP. El ciclo va del último nodo al primero, por eso empieza en preorden.length menos 1 y va bajando. Los números entran con PUSH. Cuando llega un operador, el primer POP es el izquierdo y el segundo el derecho, justo al revés que en el posorden, porque ahora estoy leyendo al revés. Si aquí usara el orden del posorden, la resta y la división darían el signo o el resultado equivocados.
+
+Con esto se ve la ventaja de tener las piezas separadas: agregar una nueva forma de evaluar me costó unas cuantas líneas, porque todo lo demás ya existía y ya estaba probado.</aside>
+</section>

@@ -1,0 +1,38 @@
+<section id="porque" class="alt" data-transition="fade">
+<div class="page">
+<div class="head">
+<p class="eyebrow">10 · USOS EN LA TECNOLOGÍA (TEMA 5.3)</p>
+<h2 class="title">¿Por qué evaluar con el posorden?</h2>
+</div>
+<div class="cards">
+<div class="card">
+<p class="ch">Preorden · notación prefija</p>
+<p class="cb"><b>Se usa en:</b> copiar un árbol (el padre se crea antes que sus hijos), lenguajes como Lisp, índices de libros.</p>
+<p class="cb"><b>Para calcular:</b> el operador llega antes que sus números; habría que esperarlos.</p>
+</div>
+<div class="card">
+<p class="ch">Inorden · notación infija</p>
+<p class="cb"><b>Se usa en:</b> mostrar la expresión como la escribimos. En un árbol binario de búsqueda entrega los datos ordenados.</p>
+<p class="cb"><b>Para calcular:</b> pierde los paréntesis.</p>
+</div>
+<div class="card uso">
+<p class="ch">Posorden · notación posfija</p>
+<p class="cb"><b>Se usa en:</b> calculadoras HP, la máquina virtual de Java, borrar un árbol (primero los hijos, luego el padre).</p>
+<p class="cb"><b>Para calcular:</b> sí sirve. Cada operador llega cuando sus dos números ya están en la pila.</p>
+</div>
+</div>
+<div class="card rompe" style="flex:0 1 auto;min-height:143px;box-sizing:border-box">
+<p class="ch">Se rompería si usáramos el inorden</p>
+<p class="cb">(8+2)*3 = 30 y 8+2*3 = 14 tienen el mismo inorden: 8 + 2 × 3. Sin paréntesis no se sabe qué calcular primero (Cairo, p. 198).</p>
+</div>
+</div>
+<aside>Ya tenemos tres recorridos, así que la pregunta obvia es: ¿cuál sirve para calcular? Aquí entra el tema 5.3, los usos de los árboles en la tecnología.
+
+El preorden visita primero la raíz. Se usa, por ejemplo, para copiar un árbol, porque hay que crear al padre antes que a sus hijos, y en lenguajes como Lisp, que escriben el operador antes de los números. Para calcular tiene un detalle: cuando leo el operador todavía no conozco sus números, así que tendría que esperarlos.
+
+El inorden visita la raíz en medio. Es la forma en que escribimos las operaciones, y en un árbol binario de búsqueda entrega los datos ordenados, como vimos en los apuntes. Pero para calcular tiene un problema serio: pierde los paréntesis. Miren el ejemplo de abajo. (8 + 2) × 3 da 30 y 8 + 2 × 3 da 14; son árboles distintos, pero su inorden es exactamente el mismo: 8 + 2 × 3. Con solo el inorden no hay forma de saber cuál de los dos era.
+
+El posorden visita la raíz al final, y eso es justo lo que necesito: cuando aparece un operador, sus dos números ya aparecieron antes. Si voy guardando cada número en una pila, cuando llega el operador sus dos operandos ya están arriba, esperándolo. Así funcionan las calculadoras HP de notación polaca inversa y la máquina virtual de Java. También se usa para borrar un árbol, porque primero hay que liberar a los hijos y luego al padre.
+
+Así que la conclusión es que el posorden me deja calcular leyendo una sola vez, de izquierda a derecha, sin paréntesis y sin tener que regresar. En la siguiente diapositiva lo comprobamos con números.</aside>
+</section>

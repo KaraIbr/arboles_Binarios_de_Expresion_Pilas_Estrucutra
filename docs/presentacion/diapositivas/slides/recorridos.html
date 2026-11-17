@@ -1,0 +1,78 @@
+<section id="recorridos" data-transition="fade">
+<div class="page">
+<div class="head">
+<p class="eyebrow">08 · RECORRIDOS (TEMA 5.2)</p>
+<h2 class="title">Preorden, inorden y posorden</h2>
+</div>
+<div class="row">
+<div class="tree-col">
+<div class="tree">
+<svg aria-label="Árbol de (18−6)/(2+1)" width="520" height="352" viewBox="0 0 520 352">
+<line x1="260" y1="46" x2="130" y2="176" stroke="#1E2321" stroke-width="2"/>
+<line x1="260" y1="46" x2="390" y2="176" stroke="#1E2321" stroke-width="2"/>
+<line x1="130" y1="176" x2="60" y2="306" stroke="#1E2321" stroke-width="2"/>
+<line x1="130" y1="176" x2="200" y2="306" stroke="#1E2321" stroke-width="2"/>
+<line x1="390" y1="176" x2="320" y2="306" stroke="#1E2321" stroke-width="2"/>
+<line x1="390" y1="176" x2="460" y2="306" stroke="#1E2321" stroke-width="2"/>
+<circle cx="260" cy="46" r="36" fill="#DBE7E3" stroke="#5F9590" stroke-width="2"/>
+<circle cx="130" cy="176" r="36" fill="#DBE7E3" stroke="#5F9590" stroke-width="2"/>
+<circle cx="390" cy="176" r="36" fill="#DBE7E3" stroke="#5F9590" stroke-width="2"/>
+<circle cx="60" cy="306" r="36" fill="#F4F1EA" stroke="#1E2321" stroke-width="2"/>
+<circle cx="200" cy="306" r="36" fill="#F4F1EA" stroke="#1E2321" stroke-width="2"/>
+<circle cx="320" cy="306" r="36" fill="#F4F1EA" stroke="#1E2321" stroke-width="2"/>
+<circle cx="460" cy="306" r="36" fill="#F4F1EA" stroke="#1E2321" stroke-width="2"/>
+</svg>
+<p class="nl" style="left:220px; top:29px">÷</p>
+<p class="nl" style="left:90px; top:159px">−</p>
+<p class="nl" style="left:350px; top:159px">+</p>
+<p class="nl" style="left:20px; top:289px">18</p>
+<p class="nl" style="left:160px; top:289px">6</p>
+<p class="nl" style="left:280px; top:289px">2</p>
+<p class="nl" style="left:420px; top:289px">1</p>
+</div>
+<table class="tbl">
+<tr><th style="width:32%">Recorrido</th><th>Resultado</th></tr>
+<tr><td>Preorden</td><td>÷ − 18 6 + 2 1</td></tr>
+<tr><td>Inorden</td><td>18 − 6 ÷ 2 + 1</td></tr>
+<tr><td>Posorden</td><td>18 6 − 2 1 + ÷</td></tr>
+</table>
+</div>
+<div class="right" style="gap:16px">
+<div class="algo algo-sm">
+<p class="at">Algoritmo 6.2 · Preorden(APNODO)</p>
+<p class="al">1. Si (APNODO ≠ NIL) entonces</p>
+<p class="al hl">&#160;&#160;&#160;Visitar APNODO <span class="cm">{primero la raíz}</span></p>
+<p class="al">&#160;&#160;&#160;Preorden con APNODO^.IZQ</p>
+<p class="al">&#160;&#160;&#160;Preorden con APNODO^.DER</p>
+</div>
+<div class="algo algo-sm">
+<p class="at">Algoritmo 6.3 · Inorden(APNODO)</p>
+<p class="al">1. Si (APNODO ≠ NIL) entonces</p>
+<p class="al">&#160;&#160;&#160;Inorden con APNODO^.IZQ</p>
+<p class="al hl">&#160;&#160;&#160;Visitar APNODO <span class="cm">{la raíz en medio}</span></p>
+<p class="al">&#160;&#160;&#160;Inorden con APNODO^.DER</p>
+</div>
+<div class="algo algo-sm">
+<p class="at">Algoritmo 6.4 · Posorden(APNODO)</p>
+<p class="al">1. Si (APNODO ≠ NIL) entonces</p>
+<p class="al">&#160;&#160;&#160;Posorden con APNODO^.IZQ</p>
+<p class="al">&#160;&#160;&#160;Posorden con APNODO^.DER</p>
+<p class="al hl">&#160;&#160;&#160;Visitar APNODO <span class="cm">{la raíz al final}</span></p>
+</div>
+</div>
+</div>
+</div>
+<aside>Con el árbol construido, toca recorrerlo, que es el tema 5.2. Recorrer un árbol quiere decir visitar todos sus nodos, uno por uno, sin repetir ninguno.
+
+Los tres algoritmos de la derecha son los de Cairo, el 6.2, el 6.3 y el 6.4, y si los comparan se van a dar cuenta de que son casi iguales. Los tres empiezan preguntando si APNODO es distinto de NIL. Si lo es, se llaman a sí mismos con el hijo izquierdo y con el derecho. Lo único que cambia es en qué momento visitan el nodo; esa línea la marqué en verde. En el preorden se visita antes de bajar a los hijos, en el inorden entre los dos hijos y en el posorden después de los dos.
+
+Con nuestro árbol, el preorden da ÷ − 18 6 + 2 1: empieza por la raíz y luego baja por la izquierda. A esto se le llama notación prefija, porque el operador va antes de sus números.
+
+El inorden da 18 − 6 ÷ 2 + 1. Así es como normalmente escribimos, la notación infija, pero fíjense en que los paréntesis desaparecieron.
+
+Y el posorden da 18 6 − 2 1 + ÷: primero los dos números y después el operador. Es la notación posfija, y es la que voy a usar para calcular.
+
+La pregunta de si APNODO es distinto de NIL es lo que hace que la recursión termine. Cuando un nodo es hoja, sus dos llamadas reciben NIL, no hacen nada y regresan. Sin esa pregunta, la función intentaría leer los hijos de un nodo que no existe.
+
+En el programa, la visita no escribe en pantalla como en los apuntes: agrega el nodo a una lista, y después la pantalla muestra esa lista. Y como el inorden pierde los paréntesis, tal como advierte Cairo, la aplicación muestra también una versión con todos los paréntesis, que llamé agrupación implícita.</aside>
+</section>

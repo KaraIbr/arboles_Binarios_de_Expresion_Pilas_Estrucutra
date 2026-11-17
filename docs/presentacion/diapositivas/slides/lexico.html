@@ -1,0 +1,47 @@
+<section id="lexico" data-transition="fade">
+<div class="split">
+<div class="text">
+<p class="eyebrow">03 · PASO 1</p>
+<h2 class="title" style="width:712px;box-sizing:border-box">Analizador léxico</h2>
+<p class="lead">Lee el texto carácter por carácter y lo separa en piezas (tokens): números, operadores y paréntesis.</p>
+<p class="small">Entrada: <span class="mono">12 + 3.5*(2-1)</span></p>
+<div class="pills">
+<p class="pill">12</p><p class="pill pill-op">+</p><p class="pill">3.5</p><p class="pill pill-op">×</p><p class="pill pill-op">(</p><p class="pill">2</p><p class="pill pill-op">−</p><p class="pill">1</p><p class="pill pill-op">)</p>
+</div>
+<p class="small">Los espacios se ignoran. Los dígitos seguidos, con o sin punto decimal, forman un solo número.</p>
+</div>
+<div class="right">
+<div class="algo">
+<p class="at">Algoritmo Léxico(TEXTO)</p>
+<p class="al">1. Hacer POS ← 1</p>
+<p class="al">2. Mientras (POS ≤ longitud de TEXTO) repetir</p>
+<p class="al">&#160;&#160;&#160;Si (TEXTO[POS] es espacio) entonces avanzar</p>
+<p class="al">&#160;&#160;&#160;Si (es dígito o punto) entonces</p>
+<p class="al">&#160;&#160;&#160;&#160;&#160;juntar los dígitos seguidos → pieza NÚMERO</p>
+<p class="al">&#160;&#160;&#160;Si (es + − × ÷) entonces → pieza OPERADOR</p>
+<p class="al">&#160;&#160;&#160;Si (es "(" o ")") entonces → pieza PARÉNTESIS</p>
+<p class="al">&#160;&#160;&#160;En otro caso → <span class="hl">ERROR "carácter no válido"</span></p>
+<p class="al">3. (Fin del ciclo del paso 2)</p>
+</div>
+<div class="cards">
+<div class="card uso">
+<p class="ch">Se usa en</p>
+<p class="cb">Es el primer paso de todo compilador (Java, C, Python) y de las calculadoras.</p>
+</div>
+<div class="card rompe">
+<p class="ch">Se rompería si…</p>
+<p class="cb">leyera dígito por dígito: 12 se volvería dos números, 1 y 2, y el árbol saldría mal.</p>
+</div>
+</div>
+</div>
+</div>
+<aside>Empecemos por el primer paso. Cuando escribo 12 + 3.5 × (2 − 1), la computadora no ve una operación: ve una fila de caracteres. Un 1, un 2, un espacio, un signo más… No sabe que el 1 y el 2 juntos son el número doce.
+
+El analizador léxico es el que pone orden. Recorre el texto de izquierda a derecha y, en cada carácter, se pregunta qué es. Si es un espacio, lo ignora y sigue. Si es un dígito, no se queda solo con ese: sigue leyendo mientras vengan más dígitos o un punto decimal, y todo eso lo junta en una sola pieza. Así el 12 queda como un número y el 3.5 como otro. Si es un más, un menos, un por o un entre, crea una pieza de operador. Si es un paréntesis, crea una pieza de paréntesis. Y si encuentra algo que no debería estar ahí, como una letra, se detiene y avisa en qué columna está el problema.
+
+Al final, el texto se convirtió en la lista de piezas que ven en la diapositiva. A esas piezas se les llama tokens.
+
+Esto no es algo que inventé para el proyecto: es lo primero que hace cualquier compilador. Cuando Java o Python leen un programa, empiezan separando el código en piezas, igual que aquí.
+
+¿Y por qué es tan importante juntar los dígitos? Porque si leyera carácter por carácter sin juntarlos, el 12 se convertiría en un 1 y un 2, dos números separados, y todo el árbol saldría mal desde el principio. Por la misma razón conviene detectar aquí los caracteres inválidos o un número mal escrito como 1.2.3: si dejara pasar el error, aparecería mucho después y sería más difícil explicar dónde estuvo.</aside>
+</section>

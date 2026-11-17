@@ -1,0 +1,49 @@
+<section id="negativos" class="alt" data-transition="fade">
+<div class="page" style="gap:28px">
+<div class="head">
+<p class="eyebrow">07 · POSITIVOS Y NEGATIVOS</p>
+<h2 class="title">Números negativos</h2>
+</div>
+<table class="tbl">
+<tr><th style="width:17%">Entrada</th><th style="width:35%">Cómo lo lee el programa</th><th style="width:34%">En el árbol</th><th>Resultado</th></tr>
+<tr><td>5-3</td><td>Resta: el − está entre dos números</td><td>nodo − con hijos 5 y 3</td><td>2</td></tr>
+<tr><td>-5+3</td><td>Signo: el − está al inicio</td><td>hoja con valor −5</td><td>−2</td></tr>
+<tr><td>8-(-2)</td><td>Resta y después un signo</td><td>hoja con valor −2</td><td>10</td></tr>
+<tr><td>2*-3</td><td>Signo después de un operador</td><td>hoja con valor −3</td><td>−6</td></tr>
+<tr><td>-(4+2)*3</td><td>Signo sobre un paréntesis</td><td>(−1) × (4+2), el −1 es implícito</td><td>−18</td></tr>
+</table>
+<div class="row" style="gap:24px">
+<div class="algo" style="flex:1">
+<p class="at">Algoritmo Factor (parte del signo)</p>
+<p class="al">1. Si (la pieza es "−" y se esperaba un número) entonces</p>
+<p class="al">&#160;&#160;&#160;Hacer X ← Factor</p>
+<p class="al">&#160;&#160;&#160;Si (X es número) entonces X^.INFO ← −X^.INFO</p>
+<p class="al">&#160;&#160;&#160;Si no, crear × con IZQ ← (−1) y DER ← X</p>
+<p class="al">2. (Fin del condicional del paso 1)</p>
+</div>
+<div class="stack-col" style="width:460px">
+<div class="card uso">
+<p class="ch">Por qué así</p>
+<p class="cb">El árbol sigue siendo binario y la pila no cambia.</p>
+</div>
+<div class="card rompe">
+<p class="ch">Se rompería si…</p>
+<p class="cb">el − de −5 se tratara como resta: faltaría el operando izquierdo.</p>
+</div>
+</div>
+</div>
+</div>
+<aside>Me pareció importante que el programa también trabaje con números negativos, porque es muy probable que una expresión los tenga.
+
+El problema es que el signo menos tiene dos significados. En 5 − 3 es una resta: está entre dos números y necesita uno de cada lado. Pero en −5 + 3 no es una resta; es un signo que dice que el 5 es negativo.
+
+¿Cómo sabe el programa cuál de los dos es? Por el lugar donde aparece. Si el menos está donde el programa esperaba un número, o sea, al principio, después de otro operador o justo después de abrir un paréntesis, es un signo. Si aparece después de un número o de un paréntesis que cierra, es una resta. Lo bueno es que el analizador sintáctico ya sabe en qué parte va, así que esta decisión le toca a Factor y no hubo que agregar reglas extra.
+
+En el árbol hay dos casos. Si el signo va pegado a un número, simplemente guardo el número negativo en la hoja: −5 es una hoja que vale −5. Si el signo va antes de un paréntesis, como en −(4 + 2), uso una equivalencia de matemáticas: menos algo es lo mismo que menos uno por ese algo. Entonces el programa crea una multiplicación con un −1 a la izquierda. Ese −1 no lo escribió nadie; por eso en la pantalla aparece con el borde punteado, y el Modo Tutor lo explica cuando pasa por él.
+
+¿Por qué no hice un nodo especial de cambio de signo? Porque ese nodo tendría un solo hijo, y ya no se cumpliría que cada operador tiene dos. Además, la pila necesitaría otra regla para sacar un solo número. Con esta solución el árbol sigue siendo binario y la evaluación no cambia en nada.
+
+Y si el programa tratara siempre el menos como resta, −5 + 3 no funcionaría: la resta buscaría un número a su izquierda y no hay ninguno.
+
+Para verlo con números: 8 − (−2) da 10, y −(4 + 2) × 3 da −18.</aside>
+</section>

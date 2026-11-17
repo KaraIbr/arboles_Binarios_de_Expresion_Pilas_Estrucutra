@@ -1,0 +1,34 @@
+<section id="seguimiento" data-transition="fade">
+<div class="page" style="gap:28px">
+<div class="head">
+<p class="eyebrow">09 · RECURSIÓN</p>
+<h2 class="title">Posorden paso a paso</h2>
+</div>
+<p class="lead">Las llamadas sin terminar quedan pendientes en la pila implícita de recursión (Cairo, ej. 6.7 a 6.9).</p>
+<table class="tbl">
+<tr><th style="width:7%">Paso</th><th style="width:20%">Llamada actual</th><th style="width:30%">Llamadas pendientes</th><th style="width:10%">Visita</th><th>Por qué se visita</th></tr>
+<tr><td>1</td><td>Posorden(18)</td><td>Posorden(÷), Posorden(−)</td><td>18</td><td>Hoja: sus dos llamadas reciben NIL</td></tr>
+<tr><td>2</td><td>Posorden(6)</td><td>Posorden(÷), Posorden(−)</td><td>6</td><td>Hoja derecha de −</td></tr>
+<tr><td>3</td><td>Posorden(−)</td><td>Posorden(÷)</td><td>−</td><td>Ya terminó sus dos subárboles</td></tr>
+<tr><td>4</td><td>Posorden(2)</td><td>Posorden(÷), Posorden(+)</td><td>2</td><td>Hoja izquierda de +</td></tr>
+<tr><td>5</td><td>Posorden(1)</td><td>Posorden(÷), Posorden(+)</td><td>1</td><td>Hoja derecha de +</td></tr>
+<tr><td>6</td><td>Posorden(+)</td><td>Posorden(÷)</td><td>+</td><td>Ya terminó sus dos subárboles</td></tr>
+<tr><td>7</td><td>Posorden(÷)</td><td>ninguna</td><td>÷</td><td>La raíz se visita al final</td></tr>
+</table>
+<div class="card uso">
+<p class="ch">¿Cómo se recuerda la rama que falta?</p>
+<p class="cb">Cuando APNODO = NIL la llamada termina y se regresa a la anterior, que sigue justo donde se quedó: ahí está guardada la rama pendiente.</p>
+</div>
+</div>
+<aside>Cuando uno ve estos algoritmos por primera vez, suele surgir una duda: si la función se llama a sí misma tantas veces, ¿cómo sabe a dónde regresar? Esta tabla responde eso.
+
+Cada vez que una llamada todavía no termina, se queda esperando. Cairo lo llama la pila implícita de recursión. No es la pila que yo programé: esta la maneja el lenguaje automáticamente.
+
+Vamos a seguirlo. Empiezo con Posorden de la raíz, la división. Lo primero que hace es llamar a su hijo izquierdo, así que la división se queda esperando y entra Posorden de la resta. La resta hace lo mismo: se queda esperando y entra Posorden del 18. El 18 es hoja: sus dos llamadas reciben NIL y regresan enseguida, así que se visita el 18. Ese es el paso 1, y en ese momento hay dos llamadas pendientes, la de la división y la de la resta.
+
+Ahora regreso a la resta, que ya terminó su lado izquierdo; llama a su lado derecho y se visita el 6. Como ya terminó sus dos lados, se visita la resta. Regreso a la división, que ahora hace lo mismo con su lado derecho: se visitan el 2, el 1 y luego la suma. Y hasta el final, cuando ya no queda nada pendiente, se visita la raíz.
+
+Por eso el posorden siempre empieza por la hoja de más a la izquierda: el algoritmo baja por la izquierda hasta toparse con NIL antes de visitar cualquier cosa.
+
+Un dato que me gusta de esta tabla: el máximo de llamadas pendientes es igual a la altura del árbol. Aquí la altura es 3, y nunca hay más de tres llamadas abiertas al mismo tiempo.</aside>
+</section>

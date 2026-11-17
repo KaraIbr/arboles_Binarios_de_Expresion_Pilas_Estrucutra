@@ -1,0 +1,59 @@
+<section id="memoria" data-transition="fade">
+<div class="split">
+<div class="text" style="gap:24px">
+<p class="eyebrow">06 · MEMORIA</p>
+<h2 class="title">El nodo: IZQ, INFO y DER</h2>
+<p class="small">Como en Cairo, cada nodo es un registro de tres campos. En las hojas, IZQ y DER valen NIL (en el programa, null). Árbol de (5+3)*2:</p>
+<table class="tbl">
+<tr><th style="width:22%">Nodo</th><th style="width:26%">IZQ</th><th style="width:22%">INFO</th><th>DER</th></tr>
+<tr><td>×</td><td>→ nodo +</td><td>×</td><td>→ nodo 2</td></tr>
+<tr><td>+</td><td>→ nodo 5</td><td>+</td><td>→ nodo 3</td></tr>
+<tr><td>5</td><td>NIL</td><td>5</td><td>NIL</td></tr>
+<tr><td>3</td><td>NIL</td><td>3</td><td>NIL</td></tr>
+<tr><td>2</td><td>NIL</td><td>2</td><td>NIL</td></tr>
+</table>
+</div>
+<div class="right">
+<div class="code">
+<div class="dots"><x-shape kind="ellipse" class="dot-r"></x-shape><x-shape kind="ellipse" class="dot-y"></x-shape><x-shape kind="ellipse" class="dot-g"></x-shape></div>
+<div class="lines">
+<p class="ln"><span class="c">// Cairo: NODO = REGISTRO IZQ, INFO, DER</span></p>
+<p class="ln"><span class="c">// src/core/Node.ts</span></p>
+<p class="ln"><span class="k">class</span> <span class="t">TreeNode</span> {</p>
+<p class="ln">&#160;&#160;<span class="k">readonly</span> izq: <span class="t">TreeNode</span> | <span class="k">null</span>; <span class="c">// IZQ (null = NIL)</span></p>
+<p class="ln">&#160;&#160;<span class="k">readonly</span> info: <span class="t">NodeInfo</span>; <span class="c">// INFO: número u operador</span></p>
+<p class="ln">&#160;&#160;<span class="k">readonly</span> der: <span class="t">TreeNode</span> | <span class="k">null</span>; <span class="c">// DER (null = NIL)</span></p>
+<p class="ln">}</p>
+<p class="ln">&#160;</p>
+<p class="ln"><span class="c">// Así queda (5+3)*2 en memoria:</span></p>
+<p class="ln"><span class="k">const</span> cinco = <span class="k">new</span> <span class="t">TreeNode</span>(<span class="s">'n0'</span>, 5); <span class="c">// NIL, NIL</span></p>
+<p class="ln"><span class="k">const</span> tres = <span class="k">new</span> <span class="t">TreeNode</span>(<span class="s">'n1'</span>, 3);</p>
+<p class="ln"><span class="k">const</span> suma = <span class="k">new</span> <span class="t">TreeNode</span>(<span class="s">'n2'</span>, <span class="s">'+'</span>, cinco, tres);</p>
+<p class="ln"><span class="k">const</span> dos = <span class="k">new</span> <span class="t">TreeNode</span>(<span class="s">'n3'</span>, 2);</p>
+<p class="ln"><span class="k">const</span> raiz = <span class="k">new</span> <span class="t">TreeNode</span>(<span class="s">'n4'</span>, <span class="s">'*'</span>, suma, dos);</p>
+</div>
+</div>
+<div class="cards">
+<div class="card uso">
+<p class="ch">Grado</p>
+<p class="cb">Hojas (números): 0 hijos. Operadores: siempre 2 hijos.</p>
+</div>
+<div class="card">
+<p class="ch">Direcciones</p>
+<p class="cb">IZQ y DER guardan la dirección de otro nodo, no posiciones seguidas.</p>
+</div>
+</div>
+</div>
+</div>
+<aside>Ya sabemos cómo se ve el árbol; ahora veamos cómo se guarda en la memoria. Usé exactamente la representación de Cairo: cada nodo es un registro con tres campos. IZQ guarda dónde está el hijo izquierdo, INFO guarda el dato y DER guarda dónde está el hijo derecho.
+
+La tabla muestra cómo queda (5 + 3) × 2. La raíz es la multiplicación: en INFO tiene el por, en IZQ apunta al nodo de la suma y en DER apunta al nodo del 2. La suma, a su vez, apunta al 5 y al 3. Y los números, como son hojas, tienen IZQ y DER en NIL: no apuntan a nada.
+
+En el código es la clase TreeNode, con los mismos tres campos: izq, info y der. Lo que Cairo llama NIL, en JavaScript se escribe null.
+
+Abajo del código se ve el orden en que se crea este árbol: primero las hojas, 5 y 3; luego la suma, que ya puede apuntar a ellas; luego el 2; y al final la raíz. Se construye de abajo hacia arriba, porque un nodo solo puede apuntar a hijos que ya existen. Eso es justo lo que hace el analizador sintáctico cada vez que crea un nodo.
+
+Hay dos detalles que conviene notar. El primero es el grado: las hojas siempre tienen cero hijos y los operadores siempre tienen dos. El segundo es que IZQ y DER guardan direcciones, no posiciones seguidas. Cada nodo está donde el sistema le encontró espacio, y lo que los une son esos enlaces, igual que en las listas ligadas.
+
+Y algo que no hay que olvidar: el lado sí importa. Si en una resta intercambiara IZQ y DER, el resultado cambiaría de signo.</aside>
+</section>

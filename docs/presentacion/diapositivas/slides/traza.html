@@ -1,0 +1,46 @@
+<section id="traza" class="alt" data-transition="fade">
+<div class="page" style="gap:28px">
+<div class="head">
+<p class="eyebrow">14 · SEGUIMIENTO</p>
+<h2 class="title">La pila con (18−6)/(2+1)</h2>
+</div>
+<table class="tbl">
+<tr><th style="width:8%">Paso</th><th style="width:9%">Nodo</th><th style="width:57%">Acción</th><th>Pila (abajo → arriba)</th></tr>
+<tr><td>1</td><td>18</td><td>PUSH(18)</td><td>[18]</td></tr>
+<tr><td>2</td><td>6</td><td>PUSH(6)</td><td>[18, 6]</td></tr>
+<tr><td>3</td><td>−</td><td>DER ← POP = 6 · IZQ ← POP = 18 · 18 − 6 = 12 · PUSH(12)</td><td>[12]</td></tr>
+<tr><td>4</td><td>2</td><td>PUSH(2)</td><td>[12, 2]</td></tr>
+<tr><td>5</td><td>1</td><td>PUSH(1)</td><td>[12, 2, 1]</td></tr>
+<tr><td>6</td><td>+</td><td>DER ← POP = 1 · IZQ ← POP = 2 · 2 + 1 = 3 · PUSH(3)</td><td>[12, 3]</td></tr>
+<tr><td>7</td><td>÷</td><td>DER ← POP = 3 · IZQ ← POP = 12 · 12 ÷ 3 = 4 · PUSH(4)</td><td>[4]</td></tr>
+<tr><td>Fin</td><td></td><td>Queda un solo valor · TOPE = 4</td><td>[4]</td></tr>
+</table>
+<div class="cards">
+<div class="card uso">
+<p class="ch">Resultado</p>
+<p class="cb">(18 − 6) ÷ (2 + 1) = 12 ÷ 3 = 4</p>
+</div>
+<div class="card">
+<p class="ch">Tamaño máximo de la pila</p>
+<p class="cb">3 elementos, en el paso 5: el 12 espera mientras se calcula 2 + 1.</p>
+</div>
+</div>
+</div>
+<aside>Esta tabla es la evaluación completa de nuestro ejemplo, y es exactamente lo que se ve en la aplicación al oprimir Siguiente Paso.
+
+Llegan el 18 y el 6. Son números, así que entran a la pila; el 6 queda arriba.
+
+Llega la resta. Saco el 6, que es el derecho, y luego el 18, que es el izquierdo. 18 menos 6 son 12, y meto el 12. Fíjense en que la pila tenía dos números y ahora tiene uno: toda la rama de la resta se convirtió en un 12.
+
+Luego entran el 2 y el 1. En este momento la pila llega a su tamaño máximo: 12, 2 y 1. El 12 se queda esperando abajo mientras se resuelve la otra rama.
+
+Llega la suma. Saco el 1 y el 2, los sumo, y meto el 3. Quedan 12 y 3.
+
+Y llega la división. Saco el 3, que es el divisor, y luego el 12. Doce entre tres son cuatro, y meto el 4.
+
+Al final queda un solo número en la pila, el 4, y ese es el resultado. Coincide con hacer la cuenta a mano.
+
+Si comparan esta tabla con el árbol, cada vez que meto un resultado es como si un subárbol se hubiera encogido hasta volverse una hoja. Al final, todo el árbol quedó reducido a un número. Esos resultados intermedios, el 12 y el 3, son los resultados parciales que la aplicación lista en el bloque de Resultado.
+
+Un último detalle: el tamaño máximo de la pila no depende de cuántos nodos haya, sino de la forma del árbol. Aquí llegó a 3 porque el 12 tuvo que esperar a que se resolviera toda la rama derecha.</aside>
+</section>

@@ -1,0 +1,65 @@
+<section id="codigo-componente" data-transition="fade">
+<div class="page">
+<div class="head">
+<p class="eyebrow">24 · COMPONENTES</p>
+<h2 class="title">¿Qué pasa dentro de un componente?</h2>
+</div>
+<div class="row" style="gap:48px">
+<div class="stack-col" style="flex:1">
+<div class="code" style="padding:32px 32px">
+<div class="dots"><x-shape kind="ellipse" class="dot-r"></x-shape><x-shape kind="ellipse" class="dot-y"></x-shape><x-shape kind="ellipse" class="dot-g"></x-shape></div>
+<div class="lines">
+<p class="ln"><span class="c">// src/App.tsx (simplificado)</span></p>
+<p class="ln"><span class="k">export</span> <span class="k">default</span> <span class="k">function</span> App() {</p>
+<p class="ln">&#160;&#160;<span class="k">const</span> { state, view, dispatch } =</p>
+<p class="ln">&#160;&#160;&#160;&#160;useExpressionEvaluator();   <span class="c">// el puente</span></p>
+<p class="ln">&#160;&#160;<span class="k">return</span> (</p>
+<p class="ln">&#160;&#160;&#160;&#160;&lt;aside&gt;</p>
+<p class="ln">&#160;&#160;&#160;&#160;&#160;&#160;&lt;TraversalsBlock</p>
+<p class="ln">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;traversals={state.traversals} /&gt;</p>
+<p class="ln">&#160;&#160;&#160;&#160;&#160;&#160;&lt;StackVisualizer stack={view.stack} /&gt;</p>
+<p class="ln">&#160;&#160;&#160;&#160;&#160;&#160;&lt;ResultBlock step={view.currentStep}</p>
+<p class="ln">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;history={view.history} /&gt;</p>
+<p class="ln">&#160;&#160;&#160;&#160;&lt;/aside&gt;</p>
+<p class="ln">&#160;&#160;);</p>
+<p class="ln">}</p>
+</div>
+</div>
+<div class="card uso">
+<p class="ch">Componente = función</p>
+<p class="cb">Recibe datos (props) y regresa lo que se dibuja.</p>
+</div>
+</div>
+<div class="code" style="flex:1; padding:32px 32px">
+<div class="dots"><x-shape kind="ellipse" class="dot-r"></x-shape><x-shape kind="ellipse" class="dot-y"></x-shape><x-shape kind="ellipse" class="dot-g"></x-shape></div>
+<div class="lines">
+<p class="ln"><span class="c">// src/components/ResultBlock.tsx</span></p>
+<p class="ln"><span class="k">function</span> ResultBlock({ step, history, finished }) {</p>
+<p class="ln">&#160;&#160;<span class="c">// 1. recibe datos ya calculados (props)</span></p>
+<p class="ln">&#160;&#160;<span class="k">const</span> operaciones = history.filter(</p>
+<p class="ln">&#160;&#160;&#160;&#160;(s) =&gt; s.kind === <span class="s">&#x27;APPLY_OPERATOR&#x27;</span>);</p>
+<p class="ln">&#160;&#160;<span class="c">// 2. regresa lo que se dibuja (JSX)</span></p>
+<p class="ln">&#160;&#160;<span class="k">return</span> (</p>
+<p class="ln">&#160;&#160;&#160;&#160;&lt;Section label="D" title="Resultado"&gt;</p>
+<p class="ln">&#160;&#160;&#160;&#160;&#160;&#160;&lt;p&gt;{formatNumber(step.result)}&lt;/p&gt;</p>
+<p class="ln">&#160;&#160;&#160;&#160;&#160;&#160;{operaciones.map((op) =&gt; (</p>
+<p class="ln">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;li&gt;{op.izquierdo} {op.info} {op.derecho}</p>
+<p class="ln">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;= {op.result}&lt;/li&gt;</p>
+<p class="ln">&#160;&#160;&#160;&#160;&#160;&#160;))}</p>
+<p class="ln">&#160;&#160;&#160;&#160;&lt;/Section&gt;</p>
+<p class="ln">&#160;&#160;);</p>
+<p class="ln">}</p>
+</div>
+</div>
+</div>
+</div>
+<aside>Para terminar con el código, veamos qué hay dentro de un componente de la pantalla.
+
+En React, un componente es una función. Recibe datos y regresa lo que se tiene que dibujar. A los datos que recibe se les llama props, que viene de propiedades, y se escriben como si fueran atributos de una etiqueta HTML.
+
+A la izquierda está App, simplificado. En la primera línea llama al hook, el puente, y recibe tres cosas: state, que es el estado guardado, como el árbol y los recorridos; view, que son datos ya preparados para dibujar, como el contenido de la pila en el paso actual; y dispatch, que es la forma de mandar avisos. Después regresa la pantalla: el bloque de recorridos recibe los recorridos, el bloque de la pila recibe la pila, y el bloque de resultado recibe el paso actual y el historial de pasos. App solo reparte los datos; no calcula nada.
+
+A la derecha está por dentro el bloque D, el de Resultado. Recibe el paso actual, el historial y si ya terminó. Lo primero que hace es filtrar el historial para quedarse solo con los pasos donde se aplicó un operador; esos son los resultados parciales. Después regresa lo que se dibuja: una sección con el título Resultado, el número final y una lista con cada operación, por ejemplo 18 − 6 = 12.
+
+Fíjense en algo importante: este componente nunca suma ni divide. El 12 ya venía calculado dentro del paso, porque lo calculó el evaluador. El componente solo decide cómo se ve. Todos los bloques de la pantalla funcionan así: el árbol, la pila, el Modo Tutor. Por eso, si hubiera un error en el resultado, sé que tengo que buscarlo en la lógica y no en la pantalla.</aside>
+</section>

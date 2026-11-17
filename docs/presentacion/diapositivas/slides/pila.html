@@ -1,0 +1,55 @@
+<section id="pila" data-transition="fade">
+<div class="page">
+<div class="head">
+<p class="eyebrow">12 · LA PILA</p>
+<h2 class="title">Pila: último en entrar, primero en salir</h2>
+</div>
+<div class="row">
+<div class="stack-col" style="width:720px">
+<table class="tbl">
+<tr><th style="width:26%">Operación</th><th style="width:40%">Qué hace</th><th>Pila después</th></tr>
+<tr><td>PUSH(18)</td><td>Mete 18 arriba</td><td>[18]</td></tr>
+<tr><td>PUSH(6)</td><td>Mete 6 arriba</td><td>[18, 6]</td></tr>
+<tr><td>TOPE</td><td>Consulta el de arriba: 6</td><td>[18, 6]</td></tr>
+<tr><td>POP</td><td>Saca el de arriba: 6</td><td>[18]</td></tr>
+<tr><td>¿Vacía?</td><td>No, queda el 18</td><td>[18]</td></tr>
+</table>
+<div class="card uso">
+<p class="ch">Se usa en</p>
+<p class="cb">Deshacer (Ctrl+Z), el botón Atrás del navegador y las llamadas pendientes de la recursión.</p>
+</div>
+<div class="card rompe">
+<p class="ch">Se rompería si…</p>
+<p class="cb">se hiciera POP con la pila vacía. El programa lo detecta y muestra un error.</p>
+</div>
+</div>
+<div class="code" style="flex:1">
+<div class="dots"><x-shape kind="ellipse" class="dot-r"></x-shape><x-shape kind="ellipse" class="dot-y"></x-shape><x-shape kind="ellipse" class="dot-g"></x-shape></div>
+<div class="lines">
+<p class="ln"><span class="c">// src/core/Stack.ts (simplificado)</span></p>
+<p class="ln"><span class="c">// lista enlazada con apuntador al TOPE</span></p>
+<p class="ln">push(value) {</p>
+<p class="ln">&#160;&#160;<span class="c">// la celda nueva apunta al tope anterior</span></p>
+<p class="ln">&#160;&#160;<span class="k">this</span>.topCell = { value, next: <span class="k">this</span>.topCell };</p>
+<p class="ln">}</p>
+<p class="ln">pop() {</p>
+<p class="ln">&#160;&#160;<span class="k">if</span> (<span class="k">this</span>.topCell === <span class="k">null</span>) <span class="k">throw</span> ERROR;</p>
+<p class="ln">&#160;&#160;<span class="k">const</span> cell = <span class="k">this</span>.topCell;</p>
+<p class="ln">&#160;&#160;<span class="k">this</span>.topCell = cell.next; <span class="c">// baja el tope</span></p>
+<p class="ln">&#160;&#160;<span class="k">return</span> cell.value;</p>
+<p class="ln">}</p>
+<p class="ln">peek() { <span class="c">/* TOPE: lo lee sin sacarlo */</span> }</p>
+</div>
+</div>
+</div>
+</div>
+<aside>Para calcular necesito la segunda estructura del proyecto: la pila. A diferencia del árbol, la pila es lineal, y su regla es muy simple: el último que entra es el primero que sale. Es como una pila de platos: solo puedo poner o quitar el de arriba.
+
+Tiene cuatro operaciones. PUSH pone un elemento arriba. POP saca el de arriba. TOPE solo mira el de arriba, sin sacarlo. Y Vacía pregunta si ya no queda nada. En la tabla se ve un ejemplo: meto el 18, meto el 6, miro el tope y es el 6, lo saco, y queda el 18.
+
+En el código hice la pila como una lista ligada, con un apuntador que siempre señala al tope, parecido a los enlaces IZQ y DER del árbol. Cuando hago PUSH, creo una celda nueva que apunta a la que antes estaba arriba, y ahora el tope es la nueva. Cuando hago POP, guardo el valor de arriba y muevo el apuntador a la celda de abajo. No tengo que recorrer nada, así que no importa si hay dos elementos o mil: las dos operaciones tardan lo mismo.
+
+Las pilas están en muchos lugares: el Ctrl+Z, que deshace primero lo último que hiciste; el botón Atrás del navegador; y la propia recursión, que guarda sus llamadas pendientes en una pila, como acabamos de ver.
+
+¿Y qué pasa si intento sacar algo de una pila vacía? No hay nada que sacar. En mi programa eso solo podría pasar si la expresión estuviera mal armada, y en lugar de inventar un valor, la pila lo detecta y avisa con un error controlado.</aside>
+</section>

@@ -1,0 +1,56 @@
+<section id="codigo-mapa" class="alt" data-transition="fade">
+<div class="page">
+<div class="head">
+<p class="eyebrow">17 · EL CÓDIGO</p>
+<h2 class="title">¿Dónde está el código y en qué lenguaje?</h2>
+</div>
+<div class="row" style="gap:40px">
+<div class="code" style="width:860px; padding:32px 36px">
+<div class="dots"><x-shape kind="ellipse" class="dot-r"></x-shape><x-shape kind="ellipse" class="dot-y"></x-shape><x-shape kind="ellipse" class="dot-g"></x-shape></div>
+<div class="lines">
+<p class="ln">estructuras/</p>
+<p class="ln">├─ index.html         <span class="c">// caja vacía #root</span></p>
+<p class="ln">├─ package.json       <span class="c">// librerías y comandos</span></p>
+<p class="ln">└─ src/</p>
+<p class="ln">&#160;&#160;&#160;├─ main.tsx        <span class="c">// arranca React</span></p>
+<p class="ln">&#160;&#160;&#160;├─ App.tsx         <span class="c">// acomoda la pantalla</span></p>
+<p class="ln">&#160;&#160;&#160;├─ hooks/</p>
+<p class="ln">&#160;&#160;&#160;│  └─ useExpressionEvaluator.ts <span class="c">// puente</span></p>
+<p class="ln">&#160;&#160;&#160;├─ components/     <span class="c">// la pantalla</span></p>
+<p class="ln">&#160;&#160;&#160;├─ lib/treeLayout.ts <span class="c">// posición de nodos</span></p>
+<p class="ln">&#160;&#160;&#160;└─ core/           <span class="c">// la lógica, sin React</span></p>
+<p class="ln">&#160;&#160;&#160;&#160;&#160;&#160;├─ Lexer.ts · Parser.ts · Node.ts</p>
+<p class="ln">&#160;&#160;&#160;&#160;&#160;&#160;├─ traversals.ts · Stack.ts</p>
+<p class="ln">&#160;&#160;&#160;&#160;&#160;&#160;├─ evaluator.ts · notations.ts</p>
+<p class="ln">&#160;&#160;&#160;&#160;&#160;&#160;└─ __tests__/core.test.ts</p>
+</div>
+</div>
+<div class="right" style="gap:20px">
+<table class="tbl">
+<tr><th style="width:20%">Archivo</th><th style="width:38%">Lenguaje</th><th>Para qué</th></tr>
+<tr><td>.ts</td><td>TypeScript</td><td>La lógica</td></tr>
+<tr><td>.tsx</td><td>TypeScript + JSX</td><td>La pantalla</td></tr>
+<tr><td>.css</td><td>CSS con Tailwind</td><td>Colores y letras</td></tr>
+<tr><td>.html</td><td>HTML</td><td>Caja donde se dibuja</td></tr>
+</table>
+<div class="card uso">
+<p class="ch">TypeScript = JavaScript con tipos</p>
+<p class="cb">Avisa si guardo un dato del tipo equivocado. Vite lo traduce a JavaScript para el navegador.</p>
+</div>
+<div class="card">
+<p class="ch">Dos mundos</p>
+<p class="cb">src/core es la lógica; src/components es la pantalla. El hook los conecta.</p>
+</div>
+</div>
+</div>
+</div>
+<aside>Hasta aquí expliqué la lógica con pseudocódigo. Ahora quiero enseñarles cómo se ve de verdad en el proyecto: dónde está cada cosa y en qué lenguaje está escrita.
+
+A la izquierda está la estructura de carpetas. Lo más importante es que la carpeta src se divide en dos mundos. Por un lado está src/core, donde vive toda la lógica de la que hemos hablado: el analizador léxico, el sintáctico, el nodo, los recorridos, la pila y la evaluación. Por otro lado está src/components, que es la pantalla: cada bloque que ven en la aplicación es un archivo ahí. Y entre los dos hay un archivo en la carpeta hooks que funciona como puente; lo explico en la siguiente diapositiva.
+
+¿En qué lenguaje está escrito? En TypeScript. TypeScript es JavaScript con tipos: además de escribir las instrucciones, le digo qué clase de dato guarda cada variable. Por ejemplo, le digo que INFO puede ser un número o un operador, y nada más. Si por error intento guardar ahí otra cosa, TypeScript me avisa antes de que el programa corra. El navegador no entiende TypeScript directamente, así que una herramienta llamada Vite lo traduce a JavaScript normal cuando abro la aplicación.
+
+Los archivos de la lógica terminan en .ts. Los de la pantalla terminan en .tsx, que es TypeScript con una manera de escribir etiquetas parecidas a HTML dentro del código; así se describen las pantallas en React. Los colores y las letras están en CSS, usando Tailwind, que permite poner estilos con nombres cortos. Y el index.html está casi vacío: solo tiene una caja, llamada root, donde React dibuja toda la aplicación.
+
+Por último, la carpeta __tests__ guarda las pruebas automáticas, que revisan la lógica sin necesidad de abrir la pantalla.</aside>
+</section>

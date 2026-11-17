@@ -1,0 +1,43 @@
+<section id="valores" data-transition="fade">
+<div class="page" style="gap:24px">
+<div class="head">
+<p class="eyebrow">11 · EL VALOR DE CADA RECORRIDO</p>
+<h2 class="title">¿Todos los recorridos sirven?</h2>
+</div>
+<table class="tbl">
+<tr><th style="width:24%">Recorrido</th><th style="width:24%">Secuencia</th><th style="width:40%">Cómo se calcula</th><th>Valor</th></tr>
+<tr><td>Preorden</td><td>÷ − 18 6 + 2 1</td><td>Al revés, con una pila: 1er POP = IZQ</td><td>4</td></tr>
+<tr><td>Posorden</td><td>18 6 − 2 1 + ÷</td><td>De izquierda a derecha: 1er POP = DER</td><td>4</td></tr>
+<tr><td>Inorden con paréntesis</td><td>((18−6)÷(2+1))</td><td>Con la agrupación del árbol</td><td>4</td></tr>
+<tr><td>Inorden tal cual</td><td>18 − 6 ÷ 2 + 1</td><td>Con la precedencia normal: 18 − 3 + 1</td><td>16 ✗</td></tr>
+</table>
+<div class="row" style="gap:24px">
+<div class="algo algo-sm" style="flex:1">
+<p class="at">Algoritmo EvaluarPrefija(LISTA)</p>
+<p class="al">1. Repetir con cada NODO, del último al primero</p>
+<p class="al">&#160;&#160;&#160;Si (NODO^.INFO es número) entonces PUSH</p>
+<p class="al">&#160;&#160;&#160;Si no: <span class="hl">IZQ ← POP</span>, DER ← POP, PUSH(IZQ op DER)</p>
+<p class="al">2. RESULTADO ← POP</p>
+</div>
+<div class="stack-col" style="width:520px">
+<div class="card uso">
+<p class="ch">En la app</p>
+<p class="cb">Al terminar, cada recorrido muestra su valor en tono tenue.</p>
+</div>
+<div class="card rompe">
+<p class="ch">Se rompería si…</p>
+<p class="cb">se calcula el inorden sin paréntesis: da 16.</p>
+</div>
+</div>
+</div>
+</div>
+<aside>Cuando termina la evaluación, la aplicación muestra junto a cada recorrido el valor que produce. Lo agregué porque responde una pregunta muy natural: si los tres recorridos visitan los mismos nodos, ¿los tres sirven para calcular?
+
+Empecemos por el preorden, que es la notación prefija: ÷ − 18 6 + 2 1. Aquí el operador aparece antes que sus números, así que no lo puedo leer de izquierda a derecha como el posorden. Pero si lo leo al revés, del último nodo al primero, sí funciona con una pila: los números entran y, cuando llega un operador, saco dos. Lo interesante es que, como lo leo al revés, el primer POP ahora es el operando izquierdo y no el derecho. Es justo el espejo de la regla del posorden. Y el resultado es 4.
+
+El posorden ya lo conocemos: también da 4.
+
+Con el inorden hay que tener cuidado. Si lo escribo con la agrupación del árbol, o sea, con todos los paréntesis, da 4 como los demás. Pero el recorrido inorden, por sí solo, no tiene paréntesis: es 18 − 6 ÷ 2 + 1. Si alguien lo calcula así, con la precedencia normal, primero divide 6 entre 2 y le da 3, luego 18 − 3 son 15, y luego 15 + 1 son 16. Da 16, no 4. La aplicación muestra esa diferencia en una línea aparte para que se vea en vivo por qué el inorden no sirve para evaluar.
+
+Entonces la conclusión es esta: el preorden y el posorden guardan toda la información del árbol y se pueden calcular con una pila, mientras que el inorden pierde los paréntesis. De los dos que sí sirven, elegí el posorden porque se lee en el orden natural, de izquierda a derecha, una sola vez.</aside>
+</section>

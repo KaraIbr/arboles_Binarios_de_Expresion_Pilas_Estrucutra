@@ -1,0 +1,30 @@
+<section id="pruebas" data-transition="fade">
+<div class="page" style="gap:24px">
+<div class="head">
+<p class="eyebrow">25 · PRUEBAS</p>
+<h2 class="title">Casos de prueba</h2>
+</div>
+<table class="tbl">
+<tr><th style="width:5%">#</th><th style="width:21%">Expresión</th><th style="width:28%">Qué demuestra</th><th style="width:28%">Posorden</th><th>Resultado</th></tr>
+<tr><td>1</td><td>5+3</td><td>Operación sencilla</td><td>5 3 +</td><td>8</td></tr>
+<tr><td>2</td><td>(5+3)*2</td><td>Paréntesis</td><td>5 3 + 2 ×</td><td>16</td></tr>
+<tr><td>3</td><td>7+3*2</td><td>Precedencia</td><td>7 3 2 × +</td><td>13</td></tr>
+<tr><td>4</td><td>((8+2)*3)-(12/4)</td><td>Árbol de altura 4</td><td>8 2 + 3 × 12 4 ÷ −</td><td>27</td></tr>
+<tr><td>5</td><td>(18-6)/(2+1)</td><td>Orden de los POP</td><td>18 6 − 2 1 + ÷</td><td>4</td></tr>
+<tr><td>6</td><td>9/(3-3)</td><td>División entre cero</td><td>9 3 3 − ÷</td><td>Error controlado</td></tr>
+<tr><td>7</td><td>(5+3</td><td>Paréntesis sin cerrar</td><td>no se construye</td><td>Error controlado</td></tr>
+<tr><td>+</td><td>8-(-2)</td><td>Negativo como hoja</td><td>8 −2 −</td><td>10</td></tr>
+<tr><td>+</td><td>-(4+2)*3</td><td>Signo sobre paréntesis</td><td>−1 4 2 + × 3 ×</td><td>−18</td></tr>
+</table>
+<p class="small"><span class="accent">24 pruebas automáticas pasan</span> (comando npm test): los 7 casos de la rúbrica, negativos, recorridos, valor de cada recorrido, pila y errores.</p>
+</div>
+<aside>Estos son los siete casos que pide la rúbrica, más dos con números negativos. Para cada uno pongo qué demuestra, cómo queda su posorden y qué resultado da.
+
+El caso 1, 5 + 3, es lo más sencillo posible: un árbol de tres nodos. El caso 2 demuestra que el paréntesis baja la suma en el árbol. El caso 3, 7 + 3 × 2, demuestra la precedencia: sin paréntesis, primero se multiplica, y da 13. El caso 4 es el árbol más alto, de altura 4, y da 27. El caso 5 es el que revisa el orden de los POP, porque tiene una resta y una división, y da 4.
+
+Los casos 6 y 7 son errores, pero se detectan en momentos distintos. En el 6, la división entre cero, el árbol sí se construye y el error aparece al evaluar. En el 7, el paréntesis sin cerrar, ni siquiera se llega a construir el árbol.
+
+Los dos de abajo son los negativos: 8 − (−2) da 10, donde el −2 es una hoja, y −(4 + 2) × 3 da −18, donde el programa agrega el −1.
+
+Además de probarlos en la pantalla, todos estos casos están escritos como pruebas automáticas. Con el comando npm test se ejecutan 24 pruebas que revisan los resultados, los recorridos, el orden de los POP, los negativos, el valor de cada recorrido y cada tipo de error, y todas pasan. Lo útil es que, si algún día cambio algo del código y rompo otra cosa sin darme cuenta, las pruebas me lo dicen en un segundo.</aside>
+</section>

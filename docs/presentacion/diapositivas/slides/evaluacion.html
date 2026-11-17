@@ -1,0 +1,53 @@
+<section id="evaluacion" data-transition="fade">
+<div class="split">
+<div class="text">
+<p class="eyebrow">13 · EVALUACIÓN</p>
+<h2 class="title">El algoritmo de evaluación</h2>
+<p class="lead">Se lee el posorden de izquierda a derecha, una sola vez. Solo hay dos reglas:</p>
+<div class="levels">
+<p class="level"><b>Regla 1 · Número</b><br>PUSH(número)</p>
+<p class="level"><b>Regla 2 · Operador</b><br>DER ← POP, IZQ ← POP, PUSH(IZQ op DER)</p>
+<p class="level"><b>Al final</b><br>Resultado = TOPE (debe quedar un solo valor)</p>
+</div>
+</div>
+<div class="right">
+<div class="algo" style="border-left:none;border:1px dotted #141413">
+<p class="at">Algoritmo Evaluar(RAÍZ)</p>
+<p class="al">1. Hacer LISTA ← Posorden(RAÍZ)</p>
+<p class="al">2. Repetir con cada NODO de LISTA</p>
+<p class="al">&#160;&#160;&#160;Si (NODO^.INFO es número) entonces</p>
+<p class="al">&#160;&#160;&#160;&#160;&#160;PUSH(NODO^.INFO)</p>
+<p class="al">&#160;&#160;&#160;Si no</p>
+<p class="al hl">&#160;&#160;&#160;&#160;&#160;Hacer DER ← POP <span class="cm">{sale primero}</span></p>
+<p class="al hl">&#160;&#160;&#160;&#160;&#160;Hacer IZQ ← POP <span class="cm">{sale después}</span></p>
+<p class="al">&#160;&#160;&#160;&#160;&#160;Si (INFO = ÷ y DER = 0) entonces ERROR</p>
+<p class="al">&#160;&#160;&#160;&#160;&#160;PUSH(IZQ INFO DER)</p>
+<p class="al">3. (Fin del ciclo del paso 2)</p>
+<p class="al">4. Si (la pila tiene un solo elemento) entonces</p>
+<p class="al">&#160;&#160;&#160;&#160;&#160;RESULTADO ← TOPE</p>
+<p class="al">&#160;&#160;&#160;si no ERROR "expresión mal formada"</p>
+</div>
+<div class="card uso" style="flex:0 1 auto;min-height:108px;box-sizing:border-box">
+<p class="ch">Sin eval()</p>
+<p class="cb">El cálculo lo hace este algoritmo, una operación a la vez, con +, −, × y ÷ escritos a mano.</p>
+</div>
+</div>
+</div>
+<aside>Ahora junto todo: el árbol, recorrido en posorden, y la pila. El algoritmo de evaluación es corto, y en el fondo solo tiene dos reglas.
+
+Primero obtengo la lista del posorden y la voy leyendo de izquierda a derecha, un nodo a la vez.
+
+Si el nodo es un número, lo meto a la pila. Un número no se opera; solo se guarda hasta que llegue el operador que lo necesita.
+
+Si el nodo es un operador, saco dos números de la pila. El primero que sale es el operando derecho y el segundo es el izquierdo. Hago la operación, izquierdo operador derecho, y meto el resultado a la pila. Lo que acaba de pasar es que todo un subárbol se convirtió en un solo número, que se queda esperando en la pila como si fuera una hoja más.
+
+Antes de dividir reviso que el derecho no sea cero; si lo es, me detengo con un error controlado.
+
+Cuando se acaba la lista, si todo salió bien, en la pila queda exactamente un número, y ese es el resultado. Lo leo con TOPE. Si quedara más de uno, o ninguno, la expresión estaba mal formada y también lo aviso.
+
+El orden de los dos POP lo marqué en verde porque es la regla más importante de la rúbrica; en un momento le dedico una diapositiva completa.
+
+Esto es lo que reemplaza a eval(): no hay nada que interprete el texto. El cálculo se hace una operación a la vez, con la suma, la resta, la multiplicación y la división escritas por mí.
+
+Y una cosa curiosa: este algoritmo solo funciona con el posorden. Si le diera el preorden, el primer nodo sería la división, intentaría sacar dos números de una pila vacía y fallaría de inmediato.</aside>
+</section>

@@ -1,0 +1,69 @@
+<section id="problema" data-transition="fade">
+<div class="page">
+<div class="head">
+<p class="eyebrow">01 · EL CAMINO DE UNA EXPRESIÓN</p>
+<h2 class="title">¿Qué hace el proyecto?</h2>
+</div>
+<div class="flow">
+<div class="fstep">
+<p class="fn">Entrada</p>
+<p class="ft">Texto</p>
+<p class="fd">Lo que escribe el usuario</p>
+<p class="fx">(18-6)/(2+1)</p>
+</div>
+<p class="farrow">→</p>
+<div class="fstep">
+<p class="fn">Paso 1</p>
+<p class="ft">Léxico</p>
+<p class="fd">Separa el texto en piezas</p>
+<p class="fx">( 18 − 6 ) ÷ …</p>
+</div>
+<p class="farrow">→</p>
+<div class="fstep">
+<p class="fn">Paso 2</p>
+<p class="ft">Sintáctico</p>
+<p class="fd">Arma el árbol binario</p>
+<p class="fx">raíz: ÷</p>
+</div>
+<p class="farrow">→</p>
+<div class="fstep">
+<p class="fn">Paso 3</p>
+<p class="ft">Posorden</p>
+<p class="fd">Ordena los nodos</p>
+<p class="fx">18 6 − 2 1 + ÷</p>
+</div>
+<p class="farrow">→</p>
+<div class="fstep hot">
+<p class="fn">Paso 4</p>
+<p class="ft">Pila</p>
+<p class="fd">Hace las cuentas</p>
+<p class="fx">resultado: 4</p>
+</div>
+</div>
+<div class="cards">
+<div class="card">
+<p class="ch">En cada paso se revisa</p>
+<p class="cb">Si algo está mal, el programa se detiene ahí y explica por qué, sin cerrarse.</p>
+</div>
+<div class="card uso">
+<p class="ch">La pantalla solo dibuja</p>
+<p class="cb">React muestra lo que entrega la lógica: árbol, recorridos, pila y Modo Tutor.</p>
+</div>
+<div class="card rompe">
+<p class="ch">¿Por qué sin eval()?</p>
+<p class="cb">eval() ejecuta el texto como código: haría la cuenta por nosotros y no existirían el árbol ni la pila.</p>
+</div>
+</div>
+</div>
+<aside>Antes de entrar en detalle, quiero mostrarles el camino completo que sigue una expresión dentro del programa, porque toda la presentación va en este mismo orden.
+
+Todo empieza con lo que escribe el usuario, por ejemplo (18 − 6) ÷ (2 + 1). Para la computadora eso todavía no es una operación: es solo una fila de caracteres. Lo primero que hace el programa es pasarlo por el analizador léxico, que separa el texto en piezas con significado: esto es un número, esto es un operador, esto es un paréntesis.
+
+Con esas piezas, el analizador sintáctico arma el árbol binario. Aquí se decide qué se calcula primero: la división queda arriba, como raíz, porque es lo último que se hace, y la resta y la suma quedan abajo.
+
+Después recorro el árbol en posorden. Ese recorrido me entrega los nodos en un orden muy conveniente: 18, 6, menos, 2, 1, más, entre. Siempre aparecen primero los números y después el operador que los usa.
+
+Y al final, con ese orden, la pila hace las cuentas. Los números se van guardando, y cada operador toma los dos últimos, los opera y guarda el resultado. Lo que queda al final en la pila es la respuesta: 4.
+
+Abajo hay tres ideas que acompañan todo el proceso. La primera es que en cada paso se revisa que todo esté bien; si algo falla, el programa se detiene justo ahí y explica qué pasó, sin cerrarse. La segunda es que la pantalla no hace cuentas: solo dibuja lo que la lógica le entrega. Y la tercera es la regla del proyecto: nada de eval(). eval() es una función de JavaScript que toma un texto y lo ejecuta como si fuera código. Con ella la cuenta saldría en una sola línea, pero entonces no habría ni árbol ni pila, que es justo lo que la materia nos pide construir. Además es peligrosa, porque ejecutaría cualquier instrucción que alguien escriba, no solo operaciones.</aside>
+</section>

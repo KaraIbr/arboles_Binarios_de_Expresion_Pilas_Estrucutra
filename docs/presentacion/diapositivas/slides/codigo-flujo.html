@@ -1,0 +1,55 @@
+<section id="codigo-flujo" data-transition="fade">
+<div class="page" style="gap:24px">
+<div class="head">
+<p class="eyebrow">18 · DIAGRAMA DEL PROYECTO</p>
+<h2 class="title">¿Quién llama a quién?</h2>
+</div>
+<div class="band">
+<div class="band-label"><p class="bl-t">Pantalla</p><p class="bl-s">React · archivos .tsx</p></div>
+<div class="chips">
+<p class="chip">main.tsx</p><p class="chip-arrow">→</p>
+<p class="chip">App.tsx</p><p class="chip-arrow">→</p>
+<p class="chip">Header · TreeCanvas · Pila · Tutor · Resultado</p>
+</div>
+</div>
+<div class="between"><p class="down">↓ App le pide los datos al hook</p><p class="up">↑ el hook le entrega el estado</p></div>
+<div class="band">
+<div class="band-label"><p class="bl-t">Puente</p><p class="bl-s">hook · archivo .ts</p></div>
+<div class="chips">
+<p class="chip chip-hook">useExpressionEvaluator</p>
+<p class="bl-s">recuerda: texto, árbol, lista de pasos y paso actual</p>
+</div>
+</div>
+<div class="between"><p class="down">↓ manda el texto escrito</p><p class="up">↑ regresa árbol, recorridos y pasos</p></div>
+<div class="band">
+<div class="band-label"><p class="bl-t">Lógica</p><p class="bl-s">TypeScript puro · src/core</p></div>
+<div class="chips">
+<p class="chip chip-core">Lexer</p><p class="chip-arrow">→</p>
+<p class="chip chip-core">Parser + Node</p><p class="chip-arrow">→</p>
+<p class="chip chip-core">traversals</p><p class="chip-arrow">→</p>
+<p class="chip chip-core">evaluator + Stack</p>
+</div>
+</div>
+<div class="cards">
+<div class="card uso">
+<p class="ch">La lógica nunca llama a la pantalla</p>
+<p class="cb">No sabe que React existe: se puede probar sola o usar en otro programa.</p>
+</div>
+<div class="card rompe">
+<p class="ch">Se rompería si…</p>
+<p class="cb">la pantalla también calculara: habría dos cuentas que podrían dar resultados distintos.</p>
+</div>
+</div>
+</div>
+<aside>Este diagrama es el mapa de cómo se comunican las partes del programa. Hay tres capas, y cada una solo habla con la que tiene al lado.
+
+Arriba está la pantalla, hecha con React. Todo arranca en main.tsx: ese archivo busca la caja vacía del index.html y le dice a React que dibuje ahí el componente App. App es el que acomoda la pantalla: el encabezado con el campo de texto, el árbol, los recorridos, la pila, el resultado y el Modo Tutor.
+
+Pero App no hace ninguna cuenta. Cuando necesita algo, se lo pide a la capa de en medio, el hook useExpressionEvaluator. Un hook es una función especial de React que puede recordar información aunque la pantalla se vuelva a dibujar. Este hook recuerda el texto escrito, el árbol, la lista de pasos de la evaluación y en qué paso vamos.
+
+Cuando oprimo Generar Árbol o Evaluar, el hook baja a la capa de la lógica y le entrega el texto. Ahí las piezas trabajan en cadena: el Lexer convierte el texto en piezas, el Parser con esas piezas arma el árbol usando nodos, los recorridos sacan el posorden, y el evaluador lo lee con la pila. Lo que sube de regreso es el árbol, los tres recorridos y una lista con todos los pasos de la evaluación.
+
+El hook guarda esa información y React vuelve a dibujar la pantalla con los datos nuevos. Un detalle: cuando oprimo Siguiente Paso no se vuelve a calcular nada. La lista de pasos ya existe; solo avanza el número del paso actual y la pantalla muestra el que sigue.
+
+Fíjense en la dirección de las flechas: la lógica nunca llama a la pantalla. Ni siquiera sabe que existe React. Gracias a eso la puedo probar sola, y si algún día quisiera hacer esta calculadora en la terminal o en una app de celular, la lógica serviría tal cual.</aside>
+</section>

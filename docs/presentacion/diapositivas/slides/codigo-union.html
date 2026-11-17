@@ -1,0 +1,65 @@
+<section id="codigo-union" data-transition="fade">
+<div class="page">
+<div class="head">
+<p class="eyebrow">20 · CÓMO SE CONECTAN</p>
+<h2 class="title">La salida de una pieza es la entrada de otra</h2>
+</div>
+<div class="row" style="gap:48px">
+<div class="stack-col" style="flex:1">
+<div class="code" style="padding:32px 32px">
+<div class="dots"><x-shape kind="ellipse" class="dot-r"></x-shape><x-shape kind="ellipse" class="dot-y"></x-shape><x-shape kind="ellipse" class="dot-g"></x-shape></div>
+<div class="lines">
+<p class="ln"><span class="c">// src/core/ExpressionTree.ts</span></p>
+<p class="ln"><span class="k">static</span> fromExpression(source: string) {</p>
+<p class="ln">&#160;&#160;<span class="c">// 1. texto → piezas</span></p>
+<p class="ln">&#160;&#160;<span class="k">const</span> tokens = <span class="k">new</span> Lexer(source).tokenize();</p>
+<p class="ln">&#160;&#160;<span class="c">// 2. piezas → árbol (regresa la raíz)</span></p>
+<p class="ln">&#160;&#160;<span class="k">const</span> root = <span class="k">new</span> Parser(tokens).parse();</p>
+<p class="ln">&#160;&#160;<span class="k">return</span> <span class="k">new</span> ExpressionTree(source, tokens, root);</p>
+<p class="ln">}</p>
+<p class="ln"><span class="c">// 3. árbol → lista de nodos en posorden</span></p>
+<p class="ln">posorden() {</p>
+<p class="ln">&#160;&#160;<span class="k">return</span> posorden(<span class="k">this</span>.root);</p>
+<p class="ln">}</p>
+</div>
+</div>
+<div class="card uso">
+<p class="ch">ExpressionTree une las piezas</p>
+<p class="cb">texto → Lexer → piezas → Parser → raíz → posorden</p>
+</div>
+</div>
+<div class="code" style="flex:1; padding:32px 32px">
+<div class="dots"><x-shape kind="ellipse" class="dot-r"></x-shape><x-shape kind="ellipse" class="dot-y"></x-shape><x-shape kind="ellipse" class="dot-g"></x-shape></div>
+<div class="lines">
+<p class="ln"><span class="c">// src/core/evaluator.ts (simplificado)</span></p>
+<p class="ln"><span class="k">function</span> evaluatePostorder(tree) {</p>
+<p class="ln">&#160;&#160;<span class="k">const</span> pila = <span class="k">new</span> Stack&lt;StackEntry&gt;();</p>
+<p class="ln">&#160;&#160;<span class="k">for</span> (<span class="k">const</span> nodo <span class="k">of</span> tree.posorden()) {</p>
+<p class="ln">&#160;&#160;&#160;&#160;<span class="k">if</span> (<span class="k">typeof</span> nodo.info === <span class="s">&#x27;number&#x27;</span>) {</p>
+<p class="ln">&#160;&#160;&#160;&#160;&#160;&#160;pila.push({ key: nodo.id, value: nodo.info })</p>
+<p class="ln">&#160;&#160;&#160;&#160;&#160;&#160;<span class="k">continue</span>;</p>
+<p class="ln">&#160;&#160;&#160;&#160;}</p>
+<p class="ln">&#160;&#160;&#160;&#160;<span class="k">const</span> derecho = pila.pop().value;   <span class="c">// 1er POP</span></p>
+<p class="ln">&#160;&#160;&#160;&#160;<span class="k">const</span> izquierdo = pila.pop().value; <span class="c">// 2do POP</span></p>
+<p class="ln">&#160;&#160;&#160;&#160;<span class="k">const</span> valor =</p>
+<p class="ln">&#160;&#160;&#160;&#160;&#160;&#160;applyOperator(izquierdo, nodo.info, derecho);</p>
+<p class="ln">&#160;&#160;&#160;&#160;pila.push({ key: nodo.id, value: valor });</p>
+<p class="ln">&#160;&#160;}</p>
+<p class="ln">&#160;&#160;<span class="k">return</span> pila.top(); <span class="c">// TOPE = resultado</span></p>
+<p class="ln">}</p>
+</div>
+</div>
+</div>
+</div>
+<aside>Aquí se ve cómo se pasan los datos de una pieza a otra, ya con el código real del proyecto.
+
+A la izquierda está ExpressionTree, que es el que organiza la cadena. Su función fromExpression recibe el texto. En la primera línea crea un Lexer con ese texto y le pide tokenize, que regresa la lista de piezas. En la segunda línea le entrega esas piezas a un Parser y le pide parse, que regresa la raíz del árbol. Con eso ya tengo el árbol completo, y lo guardo junto con el texto original y las piezas. Fíjense que el Lexer no sabe que existe un Parser, y el Parser no sabe de dónde salieron las piezas: solo reciben y entregan.
+
+Abajo está posorden, que simplemente llama a la función recursiva de los recorridos empezando por la raíz.
+
+A la derecha está el corazón del proyecto: la evaluación. Crea una pila vacía y recorre la lista que le dio el posorden. Si el nodo es un número, hace PUSH y pasa al siguiente. Si es un operador, hace los dos POP, en este orden: primero el derecho y después el izquierdo. Luego llama a applyOperator, que es la función que hace la suma, resta, multiplicación o división, y también la que revisa la división entre cero. El resultado se mete a la pila con PUSH. Al final, el valor que queda en el tope es el resultado.
+
+Esta versión está simplificada para que quepa. La real hace lo mismo, pero además guarda una fotografía de cada paso: cómo estaba la pila antes y después, y una frase que explica lo que pasó. Esa lista de fotografías es la que usa la pantalla para avanzar paso a paso y la que narra el Modo Tutor.
+
+Y como es la misma pila que expliqué antes, aquí se ve que las piezas se reutilizan: el evaluador no programa su propia pila, usa la clase Stack.</aside>
+</section>

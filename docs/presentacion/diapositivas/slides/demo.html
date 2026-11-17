@@ -1,0 +1,54 @@
+<section id="demo" class="alt">
+<div class="page" style="gap:28px">
+<div class="head">
+<p class="eyebrow">26 · DEMOSTRACIÓN</p>
+<h2 class="title">Demostración en vivo</h2>
+</div>
+<p class="lead">Cada PUSH hace brillar en verde el nodo del árbol y la caja de la pila al mismo tiempo.</p>
+<div class="demo">
+<div class="demo-row" style="--i:0">
+<p class="demo-num">01</p>
+<p class="demo-expr">(18-6)/(2+1)</p>
+<p class="demo-desc">Paso a paso: orden de los POP y valor de cada recorrido</p>
+</div>
+<div class="demo-row" style="--i:1">
+<p class="demo-num">02</p>
+<p class="demo-expr">((8+2)*3)-(12/4)</p>
+<p class="demo-desc">Los paréntesis generan niveles: altura 4</p>
+</div>
+<div class="demo-row" style="--i:2">
+<p class="demo-num">03</p>
+<p class="demo-expr">-(4+2)*3</p>
+<p class="demo-desc">Negativos: el −1 implícito aparece punteado</p>
+</div>
+<div class="demo-row" style="--i:3">
+<p class="demo-num">04</p>
+<p class="demo-expr">9/(3-3)</p>
+<p class="demo-desc">División entre cero, detenida en el nodo ÷</p>
+</div>
+<div class="demo-row" style="--i:4">
+<p class="demo-num">05</p>
+<p class="demo-expr">(5+3</p>
+<p class="demo-desc">Paréntesis sin cerrar: no se construye el árbol</p>
+</div>
+<div class="demo-row" style="--i:5">
+<p class="demo-num">06</p>
+<p class="demo-expr">[su expresión]</p>
+<p class="demo-desc">Una expresión que usted proponga</p>
+</div>
+</div>
+</div>
+<aside>Ahora sí, vamos a verlo funcionando.
+
+La pantalla está organizada como la presentación. A la izquierda está el árbol que construyó el analizador sintáctico. A la derecha hay una cuadrícula: arriba, los recorridos y la pila, uno al lado del otro, y abajo el resultado con la lista de resultados parciales. Si bajo un poco aparece el Modo Tutor, que narra cada paso con palabras y tiene los controles para avanzar.
+
+Empiezo con (18 − 6) ÷ (2 + 1), en velocidad lenta, avanzando con Siguiente Paso. Fíjense en que cada vez que un número entra a la pila, el nodo del árbol y la caja de la pila brillan en verde al mismo tiempo; así se ve qué nodo está produciendo cada valor. Cuando llegue a la división, el registro va a decir POP del 3 y luego POP del 12: primero sale el divisor. Y al terminar, junto a cada recorrido aparece su valor; el inorden muestra que, leído sin paréntesis, daría 16.
+
+Después cargo ((8 + 2) × 3) − (12 ÷ 4) para ver un árbol de altura 4.
+
+Luego un caso con negativos, −(4 + 2) × 3: el −1 que agregó el programa aparece con borde punteado, y el resultado es −18.
+
+Después, los dos errores. En 9 ÷ (3 − 3), la evaluación se detiene en el nodo de la división sin mostrar Infinity. Y (5 + 3 se rechaza antes de construir el árbol, señalando dónde quedó el paréntesis sin cerrar.
+
+Y para cerrar, la invito a proponer cualquier expresión, con positivos o negativos, y la evaluamos en vivo.</aside>
+</section>
