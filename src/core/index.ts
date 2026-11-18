@@ -13,3 +13,4 @@ export * from './traversals';
 export * from './evaluator';
 export * from './format';
 export * from './notations';
+export * from './storage';

@@ -1,12 +1,14 @@
 import { useEffect, useMemo, useReducer } from 'react';
 import {
   ExpressionTree,
+  createHistoryRecord,
   evaluateNotations,
   evaluatePostorder,
   toExpressionError,
   type EvaluationStep,
   type EvaluationTrace,
   type ExpressionErrorCode,
+  type HistoryRecord,
   type NotationValues,
   type StackEntry,
   type TreeNode,
@@ -15,6 +17,19 @@ import {
 export type Speed = 'lenta' | 'normal' | 'rapida';
 
 export const SPEED_MS: Record<Speed, number> = { lenta: 1700, normal: 1000, rapida: 450 };
+
+const STORAGE_KEY = 'gu_estructuras_historial_v1';
+
+function loadStoredHistory(): HistoryRecord[] {
+  try {
+    const raw = window.localStorage.getItem(STORAGE_KEY);
+    if (!raw) return [];
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? (parsed as HistoryRecord[]) : [];
+  } catch {
+    return [];
+  }
+}
 
 export interface UiError {
   readonly code: ExpressionErrorCode;
@@ -41,6 +56,8 @@ export interface EvaluatorState {
   readonly isPlaying: boolean;
   readonly speed: Speed;
   readonly parseError: UiError | null;
+  /** Historial acumulado de evaluaciones (entradas y salidas). */
+  readonly historyLog: readonly HistoryRecord[];
 }
 
 export type EvaluatorAction =
@@ -54,7 +71,8 @@ export type EvaluatorAction =
   | { type: 'RESTART' }
   | { type: 'TOGGLE_PLAY' }
   | { type: 'SET_SPEED'; speed: Speed }
-  | { type: 'CLEAR' };
+  | { type: 'CLEAR' }
+  | { type: 'CLEAR_HISTORY' };
 
 const initialState: EvaluatorState = {
   input: '((8+2)*3)-(12/4)',
@@ -65,6 +83,7 @@ const initialState: EvaluatorState = {
   isPlaying: false,
   speed: 'normal',
   parseError: null,
+  historyLog: [],
 };
 
 /** Construye el árbol interceptando cualquier error del núcleo. */
@@ -113,7 +132,15 @@ export function evaluatorReducer(state: EvaluatorState, action: EvaluatorAction)
     case 'EVALUATE': {
       const built = state.tree && state.tree.source === state.input ? state : build(state, state.input);
       if (!built.tree) return built;
-      return { ...built, trace: evaluatePostorder(built.tree), stepIndex: -1, isPlaying: true };
+      const trace = evaluatePostorder(built.tree);
+      const record = createHistoryRecord(built.tree, trace);
+      return {
+        ...built,
+        trace,
+        stepIndex: -1,
+        isPlaying: true,
+        historyLog: [record, ...built.historyLog],
+      };
     }
 
     case 'STEP_FORWARD': {
@@ -142,7 +169,10 @@ export function evaluatorReducer(state: EvaluatorState, action: EvaluatorAction)
       return { ...state, speed: action.speed };
 
     case 'CLEAR':
-      return { ...initialState, input: '', speed: state.speed };
+      return { ...initialState, input: '', speed: state.speed, historyLog: state.historyLog };
+
+    case 'CLEAR_HISTORY':
+      return { ...state, historyLog: [] };
   }
 }
 
@@ -158,7 +188,19 @@ export interface EvaluatorView {
 }
 
 export function useExpressionEvaluator() {
-  const [state, dispatch] = useReducer(evaluatorReducer, initialState, (s) => build(s, s.input));
+  const [state, dispatch] = useReducer(evaluatorReducer, initialState, (s) => ({
+    ...build(s, s.input),
+    historyLog: loadStoredHistory(),
+  }));
+
+  // Persistencia automática del historial en almacenamiento local del navegador.
+  useEffect(() => {
+    try {
+      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(state.historyLog));
+    } catch {
+      // Ignorar si el navegador bloquea localStorage
+    }
+  }, [state.historyLog]);
 
   // Reproducción automática paso a paso.
   useEffect(() => {

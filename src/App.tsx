@@ -1,4 +1,5 @@
 import { Header } from "./components/Header";
+import { HistoryBlock } from "./components/HistoryBlock";
 import { PlaybackControls } from "./components/PlaybackControls";
 import { ResultBlock } from "./components/ResultBlock";
 import { StackVisualizer } from "./components/StackVisualizer";
@@ -99,6 +100,7 @@ export default function App() {
               />
             }
           />
+          <HistoryBlock records={state.historyLog} dispatch={dispatch} />
         </aside>
       </div>
 

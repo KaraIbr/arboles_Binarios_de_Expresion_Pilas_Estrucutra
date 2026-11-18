@@ -4,8 +4,10 @@ import {
   ExpressionTree,
   Lexer,
   Stack,
+  createHistoryRecord,
   evaluateNotations,
   evaluatePostorder,
+  formatHistoryTxt,
   formatInfo,
   type TreeNode,
 } from '../index';
@@ -217,5 +219,22 @@ describe('Validaciones adicionales', () => {
     expect(n.infijaSinParentesis).toEqual({ value: 2 });
     const z = evaluateNotations(ExpressionTree.fromExpression('9/(3-3)'));
     expect('error' in z.prefija && z.prefija.error.code).toBe('DIVISION_BY_ZERO');
+  });
+
+  it('genera registros de historial y los formatea como archivo .txt plano', () => {
+    const tree = ExpressionTree.fromExpression('(5+3)*2');
+    const trace = evaluatePostorder(tree);
+    const rec = createHistoryRecord(tree, trace, new Date(2026, 10, 18, 12, 30, 0));
+    expect(rec.input).toBe('(5+3)*2');
+    expect(rec.preorden).toBe('* + 5 3 2');
+    expect(rec.inorden).toBe('5 + 3 * 2');
+    expect(rec.posorden).toBe('5 3 + 2 *');
+    expect(rec.result).toBe(16);
+    expect(rec.error).toBeNull();
+
+    const txt = formatHistoryTxt([rec]);
+    expect(txt).toContain('Entrada (Input)   : (5+3)*2');
+    expect(txt).toContain('Salida Posorden   : 5 3 + 2 *');
+    expect(txt).toContain('Resultado Final   : 16');
   });
 });
